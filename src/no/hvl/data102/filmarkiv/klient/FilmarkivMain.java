@@ -9,6 +9,8 @@ public class FilmarkivMain {
 		FilmarkivADT filma = new Filmarkiv(100);
 		Meny meny = new Meny(filma);
 		meny.start();
+		
+		
 	}
 
 }

@@ -33,8 +33,25 @@ public class Meny {
 		Film sekstendeFilm = new Film(16, "Inception", 2010, Sjanger.SCIFI, "Christopher Nolan", "Warner Bros. Pictures");
 		Film syttendeFilm = new Film(17, "Star Wars Episode V: The Empire Strikes Back", 1980, Sjanger.DIVERSE, "Gary Kurtz", "20th Century Fox");
 		Film attendeFilm = new Film(18, "The Matrix", 1999, Sjanger.SCIFI, "Joel Silver", "Warner Bros. Pictures");
-		Film nittendeFilm = new Film(19, "Scarface", 1983, Sjanger.THRILLER, "Martin Bregman", "Universal Pictures");
-		Film tyvendeFilm = new Film(20, "Scarface", 1983, Sjanger.THRILLER, "Martin Bregman", "Universal Pictures");
 		
+		
+		filmarkiv.leggTilFilm(førsteFilm);
+		filmarkiv.leggTilFilm(andreFilm);
+		filmarkiv.leggTilFilm(tredjeFilm);
+		filmarkiv.leggTilFilm(fjerdeFilm);
+		filmarkiv.leggTilFilm(femteFilm);
+		filmarkiv.leggTilFilm(sjetteFilm);
+		filmarkiv.leggTilFilm(syvendeFilm);
+		filmarkiv.leggTilFilm(aattendeFilm);
+		filmarkiv.leggTilFilm(niendeFilm);
+		filmarkiv.leggTilFilm(tiendeFilm);
+		filmarkiv.leggTilFilm(ellevteFilm);
+		filmarkiv.leggTilFilm(tolvteFilm);
+		filmarkiv.leggTilFilm(trettendeFilm);
+		filmarkiv.leggTilFilm(fjortendeFilm);
+		filmarkiv.leggTilFilm(femtendeFilm);
+		filmarkiv.leggTilFilm(sekstendeFilm);
+		filmarkiv.leggTilFilm(syttendeFilm);
+		filmarkiv.leggTilFilm(attendeFilm);
 	}
 }
