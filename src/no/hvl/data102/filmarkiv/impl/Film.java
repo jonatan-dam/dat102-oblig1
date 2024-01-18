@@ -14,6 +14,8 @@ public class Film {
 	private String produsent;
 	private String filmselskap;
 	
+	
+	
 	/** Skaper et tomt Film objekt */
 	public Film() {
 		
