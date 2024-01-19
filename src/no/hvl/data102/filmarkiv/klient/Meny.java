@@ -15,6 +15,8 @@ public class Meny {
 	}
 	
 	public void start() {
+		
+		// Oppretter alle de nødvendige filmene
 		Film førsteFilm = new Film(1, "Haisommer", 1987, Sjanger.THRILLER, "David Brown", "Universal Pictures");
 		Film andreFilm = new Film(2, "The Dark Knight", 2008, Sjanger.ACTION, "Emma Thomas", "Warner Bros. Pictures");
 		Film tredjeFilm = new Film(3, "Scarface", 1983, Sjanger.THRILLER, "Martin Bregman", "Universal Pictures");
@@ -34,7 +36,7 @@ public class Meny {
 		Film syttendeFilm = new Film(17, "Star Wars Episode V: The Empire Strikes Back", 1980, Sjanger.DIVERSE, "Gary Kurtz", "20th Century Fox");
 		Film attendeFilm = new Film(18, "The Matrix", 1999, Sjanger.SCIFI, "Joel Silver", "Warner Bros. Pictures");
 		
-		
+		// Legger de opprettede filmene til i arkivet
 		filmarkiv.leggTilFilm(førsteFilm);
 		filmarkiv.leggTilFilm(andreFilm);
 		filmarkiv.leggTilFilm(tredjeFilm);
@@ -53,5 +55,8 @@ public class Meny {
 		filmarkiv.leggTilFilm(sekstendeFilm);
 		filmarkiv.leggTilFilm(syttendeFilm);
 		filmarkiv.leggTilFilm(attendeFilm);
+		
+		
+		tekstgr.skrivUtFilmDelstrengITittel(filmarkiv, "Lord");
 	}
 }
