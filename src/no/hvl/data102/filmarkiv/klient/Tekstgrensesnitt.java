@@ -23,7 +23,7 @@ public class Tekstgrensesnitt {
 		
 		System.out.println("Tast inn sjanger");
 		String sjanger = tastatur.nextLine();
-		Sjanger filmSjanger = Sjanger.valueOf(sjanger); 
+		Sjanger filmSjanger = Sjanger.valueOf(sjanger.toUpperCase()); 
 		
 		System.out.println("Tast inn produsent:");
 		String produsent = tastatur.nextLine();
@@ -33,7 +33,7 @@ public class Tekstgrensesnitt {
 		
 		Film nyFilm = new Film(filmNr, filmTittel, lanseringsaar, filmSjanger, produsent, filmselskap);
 		
-		System.out.println("Følgende film er lest inn:");
+		System.out.println("Følgende film er lagt til:");
 		skrivUtFilm(nyFilm);
 		return nyFilm;
 	} //end lesFilm
@@ -80,7 +80,7 @@ public class Tekstgrensesnitt {
 		
 		System.out.println("Antall filmer i arkivet: " + antallFilmer);
 		for(Sjanger sjanger : sjangTab) {
-			System.out.println("Antall filmer i sjangeren" + sjanger + ": " + arkiv.antall(sjanger));
+			System.out.println("Antall filmer i sjangeren " + sjanger + ": " + arkiv.antall(sjanger));
 		}
 	} //end skrivUtStatistikk
 }

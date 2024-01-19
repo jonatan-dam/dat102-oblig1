@@ -1,5 +1,7 @@
 package no.hvl.data102.filmarkiv.klient;
 
+import java.util.Scanner;
+
 import no.hvl.data102.filmarkiv.adt.FilmarkivADT;
 import no.hvl.data102.filmarkiv.impl.Film;
 import no.hvl.data102.filmarkiv.impl.Sjanger;
@@ -56,7 +58,57 @@ public class Meny {
 		filmarkiv.leggTilFilm(syttendeFilm);
 		filmarkiv.leggTilFilm(attendeFilm);
 		
+		uendeligLookke();
 		
-		tekstgr.skrivUtFilmDelstrengITittel(filmarkiv, "Lord");
+	}
+	
+	public void uendeligLookke() {
+		Scanner tastatur = new Scanner(System.in);
+		
+		System.out.println("\nHva ønsker du å gjøre? Tast: " + "\n" +
+							"1 for å legge til film" + "\n" +
+							"2 for å finne en film" + "\n" +
+							"3 for å skrive ut alle filmer med en delstreng i tittelen" + "\n" +
+							"4 for å skrive ut alle filmer med en delstreng i produsentnavn" + "\n" +
+							"5 for å skrive ut statistikk fra filmarkivet" + "\n" +
+							"0 for å avslutte programmet");
+		
+		int nyttValg = Integer.parseInt(tastatur.nextLine());
+		String delstreng;
+		
+		switch(nyttValg) {
+		case 0:
+			System.exit(0);
+			break;
+		case 1:
+			Film filmSomLeggesTil = tekstgr.lesFilm();
+			filmarkiv.leggTilFilm(filmSomLeggesTil);
+			break;
+			
+		case 2:
+			System.out.println("Skriv filmnummer på filmen du ønsker å skrive ut: ");
+			int FNr = Integer.parseInt(tastatur.nextLine());
+			tekstgr.skrivUtFilm(filmarkiv.finnFilm(FNr));
+			break;
+			
+		case 3:
+			System.out.println("Skriv delstrengen du ønsker å søke på: ");
+			tekstgr.skrivUtFilmDelstrengITittel(filmarkiv, tastatur.nextLine());
+			break;
+			
+		case 4:
+			System.out.println("Skriv delstrengen du ønsker å søke på: ");
+			tekstgr.skrivUtFilmProdusent(filmarkiv, tastatur.nextLine());
+			break;
+			
+		case 5:
+			tekstgr.skrivUtStatistikk(filmarkiv);
+			break;
+			
+		default:
+			uendeligLookke();
+		}
+		
+		uendeligLookke();
 	}
 }

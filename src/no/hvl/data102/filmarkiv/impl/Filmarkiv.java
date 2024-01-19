@@ -70,20 +70,24 @@ public class Filmarkiv implements FilmarkivADT {
 				return arkiv[i];
 			}
 		}
-		
 
 		return null;
 	} //end finnFilm
-
+	
 	
 	/** Legger til en ny film.
 	 * @param nyFilm Filmen som skal legges til */
 	@Override
 	public void leggTilFilm(Film nyFilm) {
 		sjekkInitialisering(); // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
-		arkiv[antall] = nyFilm;
-		antall++;
-		
+		if(antall < arkiv.length) { // Sjekker at det er plass
+			arkiv[antall] = nyFilm;
+			antall++;
+		}else { // Dersom ikke plass, så utvides arkivet før filmen legges til
+			arkiv = utvid(arkiv);
+			arkiv[antall] = nyFilm;
+			antall++;
+		}
 	} //end leggTilFilm
 
 	
