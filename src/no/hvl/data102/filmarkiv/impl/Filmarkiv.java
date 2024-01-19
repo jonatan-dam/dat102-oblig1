@@ -1,5 +1,7 @@
 package no.hvl.data102.filmarkiv.impl;
 
+import java.util.Arrays;
+
 import no.hvl.data102.filmarkiv.adt.FilmarkivADT;
 
 /** En klasse for å skape et arkiv til å lagre et antall objekter Film i
@@ -17,13 +19,12 @@ public class Filmarkiv implements FilmarkivADT {
 	/** Konstruktør som skaper et tomt arkiv med den gitte kapasiteten, såfremt at kapasiteten ikke overskrider maks kapasitet.
 	 * @param kapasitet */
 	public Filmarkiv(int kapasitet) {
-		if(kapasitet <= MAKS_KAPASITET) {
-			arkiv = new Film[kapasitet];
-			antall = 0;
-			initialized = true; //Bekrefter at objektet har blitt opprettet.
-		}else
-				throw new IllegalStateException("Forsøkte å skape et filmarkiv " + 
-												"hvor kapasiteten overskriver tillatt maks kapasitet.");
+		
+		sjekkKapasitet(kapasitet); // Lar ikke arkivet opprettes dersom ønsket kapasitet er større enn tillatt maks kapasitet
+		arkiv = new Film[kapasitet];
+		antall = 0;
+		initialized = true; //Bekrefter at objektet har blitt opprettet.
+		
 	} //end konstruktør
 	
 	
@@ -56,12 +57,7 @@ public class Filmarkiv implements FilmarkivADT {
 		this.antall = antall;
 	}
 
-	/** Kaster et SecurityException om objektet ikke er intialisert skikkelig */
-	private void sjekkInitialisering() {
-		if(!initialized) {
-			throw new SecurityException("Filmarkiv objektet er ikke initialisert skikkelig");
-		}
-	}
+	
 
 	/** Henter en film med gitt nr fra arkivet.
 	 * @param nr Nummeret på filmen som skal hentes
@@ -99,8 +95,8 @@ public class Filmarkiv implements FilmarkivADT {
 		sjekkInitialisering(); // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
 		for(int i = 0; i < antall; i++) {
 			if(filmNr == arkiv[i].getFilmNr()){
-				arkiv[i] = arkiv[antall]; // Flytter den siste filmen i arkivet til arkiv[i], for å overta plassen til film med filmNr
-				arkiv[antall] = null; // Setter den siste filmen i arkivet lik null, da vi har laget et duplikat i arkiv[i]
+				arkiv[i] = arkiv[antall-1]; // Flytter den siste filmen i arkivet til arkiv[i], for å overta plassen til film med filmNr
+				arkiv[antall-1] = null; // Setter den siste filmen i arkivet lik null, da vi har laget et duplikat i arkiv[i]
 				antall--; // Reduserer antall med 1
 				return true;
 			}
@@ -188,13 +184,13 @@ public class Filmarkiv implements FilmarkivADT {
 	 * @param fullTab den fulle tabellen
 	 * @return Film[] den nye, utvidet tabellen */
 	private Film[] utvid(Film[] fullTab) {
-		sjekkInitialisering(); // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
-		Film[] nyTab = new Film[fullTab.length*2];
 		
-		for(int i = 0; i < antall; i++) {
-			nyTab[i] = fullTab[i];
-		}
-		return nyTab;
+		sjekkInitialisering(); // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
+		int nyLengde = fullTab.length*2;
+		sjekkKapasitet(nyLengde); // Lar ikke metoden kjøre på arkiv dersom ønsket ny lengde er større enn tillatt makslengde
+		fullTab = Arrays.copyOf(fullTab, nyLengde);
+		
+		return fullTab;
 	} //end utvid
 	
 	
@@ -213,5 +209,20 @@ public class Filmarkiv implements FilmarkivADT {
 		}
 		return nyTab;
 	} //end trimTab
+	
+	/** Kaster et SecurityException om objektet ikke er intialisert skikkelig */
+	private void sjekkInitialisering() {
+		if(!initialized) {
+			throw new SecurityException("Filmarkiv objektet er ikke initialisert skikkelig");
+		}
+	} //end sjekkInitialisering
+	
+	/** Sjekker om ønsket kapasitet er større enn tillatt maks kapasitet
+	 * @param kapasitet */
+	private void sjekkKapasitet(int kapasitet) {
+		if(kapasitet > MAKS_KAPASITET) {
+			throw new IllegalStateException("Forsøkte å utvide arkivet til et arkiv som er større enn tillatt maks kapasitet");
+		}
+	} //end sjekkKapasitet
 
 }
