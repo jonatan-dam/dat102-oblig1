@@ -56,21 +56,25 @@ public class Filmarkiv implements FilmarkivADT {
 		this.antall = antall;
 	}
 
-
+	/** Kaster et SecurityException om objektet ikke er intialisert skikkelig */
+	private void sjekkInitialisering() {
+		if(!initialized) {
+			throw new SecurityException("Filmarkiv objektet er ikke initialisert skikkelig");
+		}
+	}
 
 	/** Henter en film med gitt nr fra arkivet.
 	 * @param nr Nummeret på filmen som skal hentes
 	 * @return film med gitt nr. Om nr ikke finnes, returneres null.*/
 	@Override
 	public Film finnFilm(int nr) {
-		if(initialized) { // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
-			for(int i = 0; i < antall; i++) {
-				if(nr == arkiv[i].getFilmNr()){
-					return arkiv[i];
-				}
+		sjekkInitialisering(); // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
+		for(int i = 0; i < antall; i++) {
+			if(nr == arkiv[i].getFilmNr()){
+				return arkiv[i];
 			}
-		}else
-			throw new SecurityException("Filmarkiv objektet er ikke initialisert skikkelig");
+		}
+		
 
 		return null;
 	} //end finnFilm
@@ -80,11 +84,10 @@ public class Filmarkiv implements FilmarkivADT {
 	 * @param nyFilm Filmen som skal legges til */
 	@Override
 	public void leggTilFilm(Film nyFilm) {
-		if(initialized) { // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
-			arkiv[antall] = nyFilm;
-			antall++;
-		}else
-			throw new SecurityException("Filmarkiv objektet er ikke initialisert skikkelig");
+		sjekkInitialisering(); // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
+		arkiv[antall] = nyFilm;
+		antall++;
+		
 	} //end leggTilFilm
 
 	
@@ -93,18 +96,16 @@ public class Filmarkiv implements FilmarkivADT {
 	 * @return true dersom filmen ble slettet, false ellers */
 	@Override
 	public boolean slettFilm(int filmNr) {
-		if(initialized) { // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
-			for(int i = 0; i < antall; i++) {
-				if(filmNr == arkiv[i].getFilmNr()){
-					arkiv[i] = arkiv[antall]; // Flytter den siste filmen i arkivet til arkiv[i], for å overta plassen til film med filmNr
-					arkiv[antall] = null; // Setter den siste filmen i arkivet lik null, da vi har laget et duplikat i arkiv[i]
-					antall--; // Reduserer antall med 1
-					return true;
-				}
+		sjekkInitialisering(); // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
+		for(int i = 0; i < antall; i++) {
+			if(filmNr == arkiv[i].getFilmNr()){
+				arkiv[i] = arkiv[antall]; // Flytter den siste filmen i arkivet til arkiv[i], for å overta plassen til film med filmNr
+				arkiv[antall] = null; // Setter den siste filmen i arkivet lik null, da vi har laget et duplikat i arkiv[i]
+				antall--; // Reduserer antall med 1
+				return true;
 			}
-		}else
-			throw new SecurityException("Filmarkiv objektet er ikke initialisert skikkelig");
-		
+		}
+	
 		return false;
 	} //end slettFilm
 
@@ -114,21 +115,19 @@ public class Filmarkiv implements FilmarkivADT {
 	 * @return Film[] tabell med filmer som har delstreng i tittel */
 	@Override
 	public Film[] soekTittel(String delstreng) {
+		sjekkInitialisering(); // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
 		
 		Film[] søkeResultat = new Film[antall];
-		
-		if(initialized) { // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
-			int antallResultat = 0;
-			for(int i = 0; i < antall; i++) {
-				String tittel = arkiv[i].getFilmtittel().toUpperCase();
-				if(tittel.contains(delstreng.toUpperCase())) {
-				søkeResultat[antallResultat] = arkiv[i];
-				antallResultat++;
-				}
+		int antallResultat = 0;
+		for(int i = 0; i < antall; i++) {
+			String tittel = arkiv[i].getFilmtittel().toUpperCase();
+			if(tittel.contains(delstreng.toUpperCase())) {
+			søkeResultat[antallResultat] = arkiv[i];
+			antallResultat++;
 			}
-			søkeResultat = trimTab(søkeResultat, antallResultat);	
-		}else
-			throw new SecurityException("Filmarkiv objektet er ikke initialisert skikkelig");
+		}
+		
+		søkeResultat = trimTab(søkeResultat, antallResultat);	
 		
 		return søkeResultat;
 	} //end soekTittel
@@ -140,21 +139,21 @@ public class Filmarkiv implements FilmarkivADT {
 	@Override
 	public Film[] soekProdusent(String delstreng) {
 		
+		sjekkInitialisering(); // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
+		
 		Film[] søkeResultat = new Film[antall];
 		
-		if(initialized) { // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
-			int antallResultat = 0;
-			for(int i = 0; i < antall; i++) {
-				String produsent = arkiv[i].getProdusent().toUpperCase();
-				if(produsent.contains(delstreng.toUpperCase())) {
-					søkeResultat[antallResultat] = arkiv[i];
-					antallResultat++;
-				}
+		int antallResultat = 0;
+		for(int i = 0; i < antall; i++) {
+			String produsent = arkiv[i].getProdusent().toUpperCase();
+			if(produsent.contains(delstreng.toUpperCase())) {
+				søkeResultat[antallResultat] = arkiv[i];
+				antallResultat++;
 			}
-			søkeResultat = trimTab(søkeResultat, antallResultat);	
-		}else
-			throw new SecurityException("Filmarkiv objektet er ikke initialisert skikkelig");
-		
+		}
+			
+		søkeResultat = trimTab(søkeResultat, antallResultat);	
+	
 		return søkeResultat;
 	} //end soekProdusent
 
@@ -164,17 +163,13 @@ public class Filmarkiv implements FilmarkivADT {
 	 * @return antall filmer av gitt sjanger */
 	@Override
 	public int antall(Sjanger sjanger) {
-
+		sjekkInitialisering(); // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
 		int antallISjanger = 0;
-		
-		if(initialized) { // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
-			for(int i = 0; i < antall; i++) {
-				if(arkiv[i].getFilmSjanger() == sjanger) {
-					antallISjanger++;
-				}
+		for(int i = 0; i < antall; i++) {
+			if(arkiv[i].getFilmSjanger() == sjanger) {
+				antallISjanger++;
 			}
-		}else
-			throw new SecurityException("Filmarkiv objektet er ikke initialisert skikkelig");
+		}
 		
 		return antallISjanger;
 	} //end antall
@@ -184,7 +179,7 @@ public class Filmarkiv implements FilmarkivADT {
 	 * @return antall filmer i arkivet */
 	@Override
 	public int antall() {
-		
+		sjekkInitialisering(); // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
 		return antall;
 	} //end antall
 	
@@ -193,6 +188,7 @@ public class Filmarkiv implements FilmarkivADT {
 	 * @param fullTab den fulle tabellen
 	 * @return Film[] den nye, utvidet tabellen */
 	private Film[] utvid(Film[] fullTab) {
+		sjekkInitialisering(); // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
 		Film[] nyTab = new Film[fullTab.length*2];
 		
 		for(int i = 0; i < antall; i++) {
@@ -207,6 +203,7 @@ public class Filmarkiv implements FilmarkivADT {
 	 * @param n int antall elementer
 	 * @return En ny, kopiert og trimmet tabell som er full. */
 	private Film[] trimTab(Film[] tab, int n) {
+		sjekkInitialisering(); // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
 		//n er antall elementer
 		Film[] nyTab = new Film[n];
 		int i = 0;
