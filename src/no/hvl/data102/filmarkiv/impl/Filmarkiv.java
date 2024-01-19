@@ -69,7 +69,8 @@ public class Filmarkiv implements FilmarkivADT {
 					return arkiv[i];
 				}
 			}
-		}
+		}else
+			throw new SecurityException("Filmarkiv objektet er ikke initialisert skikkelig");
 
 		return null;
 	} //end finnFilm
@@ -82,7 +83,8 @@ public class Filmarkiv implements FilmarkivADT {
 		if(initialized) { // Lar ikke metoden kjøre på arkiv som ikke er opprettet på skikkelig måte
 			arkiv[antall] = nyFilm;
 			antall++;
-		}
+		}else
+			throw new SecurityException("Filmarkiv objektet er ikke initialisert skikkelig");
 	} //end leggTilFilm
 
 	
@@ -100,7 +102,9 @@ public class Filmarkiv implements FilmarkivADT {
 					return true;
 				}
 			}
-		}
+		}else
+			throw new SecurityException("Filmarkiv objektet er ikke initialisert skikkelig");
+		
 		return false;
 	} //end slettFilm
 
@@ -123,7 +127,8 @@ public class Filmarkiv implements FilmarkivADT {
 				}
 			}
 			søkeResultat = trimTab(søkeResultat, antallResultat);	
-		}
+		}else
+			throw new SecurityException("Filmarkiv objektet er ikke initialisert skikkelig");
 		
 		return søkeResultat;
 	} //end soekTittel
@@ -147,7 +152,9 @@ public class Filmarkiv implements FilmarkivADT {
 				}
 			}
 			søkeResultat = trimTab(søkeResultat, antallResultat);	
-		}	
+		}else
+			throw new SecurityException("Filmarkiv objektet er ikke initialisert skikkelig");
+		
 		return søkeResultat;
 	} //end soekProdusent
 
@@ -166,7 +173,9 @@ public class Filmarkiv implements FilmarkivADT {
 					antallISjanger++;
 				}
 			}
-		}
+		}else
+			throw new SecurityException("Filmarkiv objektet er ikke initialisert skikkelig");
+		
 		return antallISjanger;
 	} //end antall
 
