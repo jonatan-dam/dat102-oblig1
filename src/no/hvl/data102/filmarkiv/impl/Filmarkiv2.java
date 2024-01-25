@@ -39,8 +39,15 @@ public class Filmarkiv2 implements FilmarkivADT {
     @Override
     public void leggTilFilm(Film nyFilm) {
         LinearNode<Film> newNode = new LinearNode<>(nyFilm);
-        newNode.neste = start;
-        start = newNode;
+        if (start == null) {
+            start = newNode;
+        } else {
+            LinearNode<Film> current = start;
+            while (current.neste != null) {
+                current = current.neste;
+            }
+            current.neste = newNode;
+        }
         antall++;
     }
 
